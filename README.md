@@ -10,9 +10,7 @@ Jogo da memória com baralho completo (52 cartas), desenvolvido em HTML, CSS e J
    git clone https://github.com/Thiagoferreira13/jogo-da-memoria.git
 ```
 2. Acesse a pasta do projeto:
-```bash
-   cd SEU_REPOSITORIO
-```
+
 3. Abra o arquivo `index.html` no navegador
 
 ### 🃏 Regras
