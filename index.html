@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <title>Jogo da Memória</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Jogo da Memória</h1>
+            <p>Bem vindo ao <strong>Jogo da Memória!</strong></p>
+        </header>
+        <hr color="#D4AF37">
+        <select id="dificuldade" onchange="mudarDificuldade()">
+            <option value="6">Fácil (6 cartas)</option>
+            <option value="12">Médio (12 cartas)</option>
+            <option value="24">Difícil (24 cartas)</option>
+        </select>
+        <p>Encontre os pares de cartas!</p>
+        <div id="hud">
+        <div class="hud-item">&#x1F3AE Movimentos: <strong id="movimentos">0</strong></div>
+        <div class="hud-item">&#x23F3 Tempo: <strong id="tempo">00:00</strong></div>
+        <div class="hud-item">&#x2705 Pares: <strong id="pares">0/0</strong></div>
+    </div>
+        <div class="board">
+        </div>
+        <div id="message" class="hide">
+            <p>Você Venceu!</p>
+        </div>
+        <p>Clique nas cartas</p>
+        <button id="Reiniciar">Reiniciar</button>
+        <p>Sequiser saber mais sobre o Jogo Da Memória acesse o site <a href="https://pt.wikipedia.org/wiki/Jogo_de_mem%C3%B3ria" target="_blank">Wikipedia</a>.</p>
+        <footer>
+            <p><strong>Desenvolvido por:</strong> Thiago Ferreira Azevedo</p>
+            <p><strong>Turma GAC116 - 10A</strong></p>
+        </footer>
+        <script src="script.js"></script>
+    </div>
+</body>
+</html>
