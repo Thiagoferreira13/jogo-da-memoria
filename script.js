@@ -17,7 +17,6 @@ let movimentos = 0;
 let paresEncontrados = 0;
 let totalPares = 0;
 
-
 //tempo
 let tempo = 0;
 let intervalo = null;
@@ -37,7 +36,7 @@ naipes.forEach(naipe=> {
 function iniciarJogo() {
     board.innerHTML = "";//Tira todas as cartas antigas
     messageContainer.classList.add("hide");//esconde a mensagem de vitória
-    let quantidade  = parseInt(select.value);
+    let quantidade  = Number(select.value);
     totalPares = quantidade/2;
 
 
@@ -69,45 +68,48 @@ function iniciarJogo() {
     atualizarHUD();
 
     //criando cartas aleatorias
-    let selecionadas = base.sort(() => Math.random() - 0.5).slice(0, totalPares);//totalPares é quantidade de tipos de cartas que eu tenho no jogo
-    let jogo = [...selecionadas, ...selecionadas];
-    //embaralha de novo, agora todas as cartas
-    jogo.sort(() => Math.random() - 0.5);
+    let baralho = embaralhar(base);
 
     //criando as cartas
-    jogo.forEach(valor=>{
-        let carta = document.createElement("div");
-        carta.classList.add("card");
-
-        //inicia a carta como virada para baixo
-        let img = document.createElement("img");
-        img.src = "img/card_bg.png";
-
-        //guarda o valor da carta
-        carta.dataset.valor = valor;
-
-        //adiciona a carta na tela
-        carta.appendChild(img);
-        board.appendChild(carta);
-
-        //faz ela reagir ao clique
-        carta.addEventListener("click", clicarCarta);
+    baralho.forEach(valor=>{
+        board.appendChild(criarCarta(valor));
     });
 
+}
+
+//escolhe uma quantidade de cartas aleatorias do baralho e embaralha e retorna as cartas do jogo
+function embaralhar(array) {
+    let copia = [...array];
+    let selecionadas = copia.sort(()=>Math.random() - 0.5).slice(0, totalPares);
+    let jogo = [...selecionadas, ...selecionadas];
+    jogo.sort(()=>Math.random() - 0.5);
+
+    return jogo;
+}
+
+//cria cartas em html, guarda os valores e adiciona no board
+function criarCarta(valor) {
+    let carta = document.createElement("div");
+    carta.classList.add("card");
+
+    const img = document.createElement("img");
+    img.src = "img/card_bg.png";
+
+    carta.dataset.valor = valor;
+    carta.appendChild(img);
+
+    carta.addEventListener("click", clicarCarta);
+
+    return carta;
 }
 
 //função clicar na carta
 function clicarCarta() {
     if (travar) return;//impede que o jogador clique em mais de duas cartas
-
-    //pega a imagem da carta
-    let img = this.querySelector("img");
-
-    //mostra a imagem
-    img.src = `img/${this.dataset.valor}.png`;
-    console.log(`img/${this.dataset.valor}.png`);//controlar a carta clicada
-
     if (this === primeiraCarta) return;//nao deixar clicar na mesma carta
+
+    //seleciona o elemento imagem e atribui a imagem de acordo com o valor
+    virarCarta(this);
 
     ///guarda primeira carta, se ela aina nao existe
     if (!primeiraCarta) {
@@ -121,6 +123,11 @@ function clicarCarta() {
     }
 
     atualizarHUD();
+}
+
+//seleciona o elemento imagem e atribui a imagem de acordo com o valor
+function virarCarta(carta) {
+    carta.querySelector("img").src = `img/${carta.dataset.valor}.png`;
 }
 
 //verificando se é um par
@@ -174,9 +181,9 @@ function pararTimer() {
 
 //formata o tempo
 function formatarTempo() {
-    let min = String(Math.floor(tempo / 60)).padStart(2, '0');
-    let seg = String(tempo % 60).padStart(2, '0');
-    return `${min}:${seg}`;
+    let min = String(Math.floor(tempo / 60)).padStart(2, '0');//minutos
+    let seg = String(tempo % 60).padStart(2, '0');//segundos
+    return `${min}:${seg}`;//tempo formatado
 }
 
 //atualiza os dados do hud
@@ -186,14 +193,12 @@ function atualizarHUD() {
     paresEl.textContent = `${paresEncontrados}/${totalPares}`;
 }
 
-
 botao.addEventListener("click", iniciarJogo);
 
 //reinicia o jogo quando muda-se a dificuldade
 function mudarDificuldade() {
     iniciarJogo();
 }
-
 
 //inicia o jogo automaticamente
 iniciarJogo();
